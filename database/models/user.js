@@ -6,16 +6,17 @@ const userSchema = new Schema({
     unique: false,
     required: false,
   },
-  email: {
-    type: String,
-    unique: false,
-    required: false,
-  },
   password: {
     type: String,
     unique: false,
     required: false,
   },
+  email: {
+    type: String,
+    unique: false,
+    required: false,
+  },
+  createdAt: String,
 });
 
 module.exports = model("User", userSchema);
