@@ -9,6 +9,12 @@ const {
   validateLoginInput,
 } = require("../../util/validators");
 
+/*
+  @ generateToken : generates a web token for each user 
+      @ args : a successfully registered user
+      @ task :  create a jwt
+      @ returns: a String of random jumbled up stuff to generate a unique token
+*/
 function generateToken(user) {
   return jwt.sign(
     {
@@ -34,7 +40,6 @@ function generateToken(user) {
                   specific user id,
                   token}
 */
-
 module.exports = {
   Mutation: {
     async login(_, { username, password }) {
@@ -70,7 +75,7 @@ module.exports = {
       _,
       { registerInput: { username, password, confirmPassword, email } }
     ) {
-      //TODO: Validate user data
+      // Validate user data
       const { valid, errors } = validateRegisterInput(
         username,
         password,
@@ -81,7 +86,7 @@ module.exports = {
         throw new UserInputError("Errors", { errors });
       }
 
-      // TODO: Make sure user doesnt already exist
+      // Make sure user doesnt already exist
       const user = await User.findOne({ username: username });
       if (user) {
         throw new UserInputError("Username is taken", {
