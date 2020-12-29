@@ -8,3 +8,13 @@ suite
   .next(async (context) => {
     const divTag = await context.exists("div");
   });
+
+suite
+  .scenario("Homepage Loads", "html")
+  .open("/login")
+  .next(async (context) => {});
+
+suite
+  .scenario("Homepage Loads", "html")
+  .open("/register")
+  .next(async (context) => {});
