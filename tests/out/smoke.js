@@ -17,3 +17,11 @@ suite
     .next((context) => __awaiter(void 0, void 0, void 0, function* () {
     const divTag = yield context.exists("div");
 }));
+suite
+    .scenario("Homepage Loads", "html")
+    .open("/login")
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
+suite
+    .scenario("Homepage Loads", "html")
+    .open("/register")
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
