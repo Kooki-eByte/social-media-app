@@ -28,6 +28,7 @@
     "mongoose": "^5.11.4"
   },
   "devDependencies": {
+    "flagpole": "^2.5.26",
     "nodemon": "^2.0.6"
   }
 }
