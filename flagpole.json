@@ -1,0 +1,29 @@
+{
+  "project": {
+    "id": "",
+    "name": "social-media-app",
+    "path": "tests",
+    "source": "src",
+    "output": "out",
+    "images": "images",
+    "cache": "cache",
+    "schemas": "schemas"
+  },
+  "environments": {
+    "dev": {
+      "name": "dev",
+      "defaultDomain": "http://localhost:3000"
+    },
+    "prod": {
+      "name": "prod",
+      "defaultDomain": "https://social-media-gql-5.herokuapp.com/"
+    }
+  },
+  "suites": {
+    "smoke": {
+      "id": "",
+      "name": "smoke",
+      "tags": []
+    }
+  }
+}
