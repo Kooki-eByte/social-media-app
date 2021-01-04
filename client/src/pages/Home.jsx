@@ -26,8 +26,6 @@ export default function Home() {
   if (data !== undefined) {
     const { getPosts } = data;
 
-    console.log(data);
-
     return (
       <div>
         <Grid container className={classes.root} spacing={2}>

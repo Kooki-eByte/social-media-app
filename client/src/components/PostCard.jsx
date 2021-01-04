@@ -9,11 +9,13 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CommentIcon from "@material-ui/icons/Comment";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import moment from "moment";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth";
+import LikeButton from "./LikeButton";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -41,11 +43,9 @@ export default function PostCard({
   id,
   post: { body, createdAt, username, likeCount, commentCount, likes },
 }) {
-  const classes = useStyles();
+  const { user } = useContext(AuthContext);
 
-  function likePost() {
-    console.log("Post was liked!!");
-  }
+  const classes = useStyles();
 
   function commentPost() {
     console.log("selected to comment on post!");
@@ -69,15 +69,9 @@ export default function PostCard({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="like" onClick={() => likePost()}>
-            <Link to={"/"} style={{ color: "#787878" }}>
-              <StyledBadge badgeContent={likeCount} color="secondary">
-                <FavoriteBorderOutlinedIcon />
-              </StyledBadge>
-            </Link>
-          </IconButton>
+          <LikeButton user={user} post={{ id, likes, likeCount }} />
           <IconButton aria-label="comment" onClick={() => commentPost()}>
-            <Link to={"/"} style={{ color: "#787878" }}>
+            <Link to={`/post/${id}`} style={{ color: "#787878" }}>
               <StyledBadge badgeContent={commentCount} color="secondary">
                 <CommentIcon />
               </StyledBadge>
@@ -88,6 +82,15 @@ export default function PostCard({
               <VisibilityIcon />
             </Link>
           </IconButton>
+          {user && user.username === username && (
+            <IconButton
+              aria-label="view-post"
+              onClick={() => console.log("Delete Post")}
+              style={{ float: "right" }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
         </CardActions>
       </Card>
     </Grid>
