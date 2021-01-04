@@ -3,8 +3,9 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,9 +20,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ButtonAppBar() {
+  const { user, logout } = useContext(AuthContext);
+
   const classes = useStyles();
 
-  return (
+  const navBar = user ? (
+    <div className={classes.root}>
+      <AppBar position="static" color="transparent">
+        <Toolbar>
+          <Link to={"/"}>
+            <Button color="#000000de" size="large">
+              {user.username}
+            </Button>
+          </Link>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            style={{ textAlign: "center" }}
+          >
+            Social Bug
+          </Typography>
+          <Button color="#000000de" size="large" onClick={logout}>
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  ) : (
     <div className={classes.root}>
       <AppBar position="static" color="transparent">
         <Toolbar>
@@ -51,4 +76,6 @@ export default function ButtonAppBar() {
       </AppBar>
     </div>
   );
+
+  return navBar;
 }

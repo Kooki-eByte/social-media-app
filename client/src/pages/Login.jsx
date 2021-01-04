@@ -5,7 +5,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import gql from "graphql-tag";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/auth";
 
 const LOGIN_USER = gql`
   mutation login($username: String!, $password: String!) {
@@ -20,6 +21,7 @@ const LOGIN_USER = gql`
 `;
 
 export default function Login(props) {
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
 
   const [values, setValues] = useState({
@@ -40,7 +42,8 @@ export default function Login(props) {
   };
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, result) {
+    update(_, { data: { login: userData } }) {
+      context.login(userData);
       props.history.push("/");
     },
     onError(err) {

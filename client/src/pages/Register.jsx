@@ -6,7 +6,8 @@ import MuiTextField from "@material-ui/core/TextField";
 import { Field, Form, Formik } from "formik";
 import { fieldToTextField, TextField } from "formik-material-ui";
 import gql from "graphql-tag";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/auth";
 
 const REGISTER_USER = gql`
   mutation register(
@@ -42,6 +43,7 @@ function UpperCasingTextField(props) {
 }
 
 export default function Register(props) {
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const [values, setValues] = useState({
     username: "",
@@ -60,8 +62,8 @@ export default function Register(props) {
   };
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, result) {
-      console.log(result);
+    update(_, { data: { register: userData } }) {
+      context.login(userData);
       props.history.push("/");
     },
     onError(err) {
