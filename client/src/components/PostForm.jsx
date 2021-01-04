@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/react-hooks";
 import { Button, Grid, LinearProgress } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import Snackbar from "@material-ui/core/Snackbar";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import gql from "graphql-tag";
@@ -32,6 +33,16 @@ const CREATE_POST_MUTATION = gql`
 `;
 
 export default function PostForm() {
+  const [openSnack, setOpenSnack] = useState(false);
+
+  const handleError = () => {
+    setOpenSnack(true);
+  };
+
+  const handleClose = () => {
+    setOpenSnack(false);
+  };
+
   const [values, setValues] = useState({
     body: "",
   });
@@ -42,10 +53,12 @@ export default function PostForm() {
       const data = proxy.readQuery({
         query: FETCH_ALL_POSTS,
       });
-
       data.getPosts = [result.data.createPost, ...data.getPosts];
       proxy.writeQuery({ query: FETCH_ALL_POSTS, data });
       setValues("");
+    },
+    onError(_) {
+      handleError();
     },
   });
 
@@ -94,6 +107,17 @@ export default function PostForm() {
           </Form>
         )}
       </Formik>
+      {error && (
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          open={openSnack}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          message={error.graphQLErrors[0].message}
+          severity="info"
+          key={error}
+        />
+      )}
     </Grid>
   );
 }
