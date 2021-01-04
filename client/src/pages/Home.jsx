@@ -1,9 +1,11 @@
 import { useQuery } from "@apollo/react-hooks";
 import { CircularProgress, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import gql from "graphql-tag";
-import React from "react";
+import React, { useContext } from "react";
 import PostCard from "../components/PostCard";
+import PostForm from "../components/PostForm";
+import { AuthContext } from "../context/auth";
+import { FETCH_ALL_POSTS } from "../utils/graphql.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,29 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FETCH_ALL_POSTS = gql`
-  {
-    getPosts {
-      id
-      body
-      createdAt
-      username
-      likeCount
-      likes {
-        username
-      }
-      commentCount
-      comments {
-        id
-        username
-        body
-        createdAt
-      }
-    }
-  }
-`;
-
 export default function Home() {
+  const { user } = useContext(AuthContext);
+
   // Constant to get all of the posts from the database and a loading variable that holds a boolean that stays true until the data is grabbed.
   // RETURNS: Array of all posts
   const { loading, data } = useQuery(FETCH_ALL_POSTS);
@@ -54,6 +36,7 @@ export default function Home() {
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={3}>
+              {user && <PostForm />}
               {loading ? (
                 <CircularProgress />
               ) : (
