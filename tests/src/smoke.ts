@@ -18,3 +18,8 @@ suite
   .scenario("Homepage Loads", "html")
   .open("/register")
   .next(async (context) => {});
+
+suite
+  .scenario("Homepage Loads", "html")
+  .open("/posts/:postId")
+  .next(async (context) => {});

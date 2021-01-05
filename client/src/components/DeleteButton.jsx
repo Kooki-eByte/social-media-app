@@ -11,19 +11,39 @@ const DELETE_POST_MUTATION = gql`
   }
 `;
 
-export default function DeleteButton({ postId, callback }) {
-  const [deletePost] = useMutation(DELETE_POST_MUTATION, {
+const DELETE_COMMENT_MUTATION = gql`
+  mutation deleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      id
+      comments {
+        id
+        username
+        createdAt
+        body
+      }
+      commentCount
+    }
+  }
+`;
+
+export default function DeleteButton({ postId, commentId, callback }) {
+  const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
+
+  const [deletePostOrComment] = useMutation(mutation, {
     update(proxy) {
-      const data = proxy.readQuery({
-        query: FETCH_ALL_POSTS,
-      });
-      data.getPosts = data.getPosts.filter((post) => post.id !== postId);
-      proxy.writeQuery({ query: FETCH_ALL_POSTS, data });
+      if (!commentId) {
+        const data = proxy.readQuery({
+          query: FETCH_ALL_POSTS,
+        });
+        data.getPosts = data.getPosts.filter((post) => post.id !== postId);
+        proxy.writeQuery({ query: FETCH_ALL_POSTS, data });
+      }
 
       if (callback) callback();
     },
     variables: {
       postId,
+      commentId,
     },
   });
 
@@ -33,7 +53,9 @@ export default function DeleteButton({ postId, callback }) {
       onClick={() => {
         let confirmDelete = window.confirm("Are you sure you want to delete?");
 
-        confirmDelete ? deletePost() : console.log("post was not deleted");
+        confirmDelete
+          ? deletePostOrComment()
+          : console.log("post was not deleted");
       }}
       style={{ float: "right" }}
     >

@@ -25,3 +25,7 @@ suite
     .scenario("Homepage Loads", "html")
     .open("/register")
     .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
+suite
+    .scenario("Homepage Loads", "html")
+    .open("/posts/:postId")
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
