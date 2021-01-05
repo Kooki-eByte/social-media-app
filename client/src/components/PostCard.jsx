@@ -9,12 +9,12 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CommentIcon from "@material-ui/icons/Comment";
-import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import moment from "moment";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
+import DeleteButton from "./DeleteButton";
 import LikeButton from "./LikeButton";
 
 const StyledBadge = withStyles((theme) => ({
@@ -82,15 +82,7 @@ export default function PostCard({
               <VisibilityIcon />
             </Link>
           </IconButton>
-          {user && user.username === username && (
-            <IconButton
-              aria-label="view-post"
-              onClick={() => console.log("Delete Post")}
-              style={{ float: "right" }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          )}
+          {user && user.username === username && <DeleteButton postId={id} />}
         </CardActions>
       </Card>
     </Grid>
