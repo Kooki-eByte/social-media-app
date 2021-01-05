@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/react-hooks";
-import { Badge } from "@material-ui/core";
+import { Badge, Popover, Typography } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { withStyles } from "@material-ui/core/styles";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -36,6 +36,18 @@ export default function LikeButton({ user, post: { id, likes, likeCount } }) {
   });
   const [liked, setLiked] = useState(false);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   useEffect(() => {
     if (user && likes.find((like) => like.username === user.username)) {
       setLiked(true);
@@ -62,8 +74,33 @@ export default function LikeButton({ user, post: { id, likes, likeCount } }) {
   );
 
   return (
-    <IconButton aria-label="like" onClick={() => likePost()}>
+    <IconButton
+      aria-label="like"
+      onClick={() => likePost()}
+      onMouseEnter={handlePopoverOpen}
+      onMouseLeave={handlePopoverClose}
+      aria-owns={open ? "mouse-over-popover" : undefined}
+      aria-haspopup="true"
+    >
       {likeButton}
+      <Popover
+        id="mouse-over-popover"
+        style={{ pointerEvents: "none" }}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <Typography>Like post</Typography>
+      </Popover>
     </IconButton>
   );
 }
