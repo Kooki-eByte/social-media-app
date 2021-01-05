@@ -6,6 +6,7 @@ import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import gql from "graphql-tag";
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { FETCH_ALL_POSTS } from "../utils/graphql.js";
 
 const CREATE_POST_MUTATION = gql`
@@ -32,7 +33,7 @@ const CREATE_POST_MUTATION = gql`
   }
 `;
 
-export default function PostForm() {
+export default function PostForm(props) {
   const [openSnack, setOpenSnack] = useState(false);
 
   const handleError = () => {
@@ -56,6 +57,7 @@ export default function PostForm() {
       data.getPosts = [result.data.createPost, ...data.getPosts];
       proxy.writeQuery({ query: FETCH_ALL_POSTS, data });
       setValues("");
+      Redirect("/");
     },
     onError(_) {
       handleError();
