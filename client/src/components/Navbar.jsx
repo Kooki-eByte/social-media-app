@@ -28,7 +28,7 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          <Link to={"/"}>
+          <Link to={"/"} style={{ textDecoration: "none" }}>
             <Button color="#000000de" size="large">
               {user.username}
             </Button>

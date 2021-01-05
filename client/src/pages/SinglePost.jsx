@@ -10,11 +10,9 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CommentIcon from "@material-ui/icons/Comment";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import gql from "graphql-tag";
 import moment from "moment";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import DeleteButton from "../components/DeleteButton";
 import LikeButton from "../components/LikeButton";
 import { AuthContext } from "../context/auth";
@@ -153,11 +151,6 @@ export default function SinglePost(props) {
                 <StyledBadge badgeContent={commentCount} color="secondary">
                   <CommentIcon />
                 </StyledBadge>
-              </IconButton>
-              <IconButton aria-label="view-post">
-                <Link to={`/posts/${id}`} style={{ color: "#787878" }}>
-                  <VisibilityIcon />
-                </Link>
               </IconButton>
               {user && user.username === username && (
                 <DeleteButton postId={id} callback={deletePostCallback} />
