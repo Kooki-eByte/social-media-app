@@ -15,6 +15,11 @@ const server = new ApolloServer({
 // Connect our database to the server
 dbConnection;
 
-server.listen({ port: PORT }).then((res) => {
-  console.log(`Server running at ${res.url}`);
-});
+server
+  .listen({ port: PORT })
+  .then((res) => {
+    console.log(`Server running at ${res.url}`);
+  })
+  .catch((err) => {
+    console.error(err);
+  });

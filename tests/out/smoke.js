@@ -10,22 +10,59 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const flagpole_1 = require("flagpole");
+const puppeteer = require("puppeteer");
 const suite = flagpole_1.default("Basic Smoke Test of Site");
 suite
     .scenario("Homepage Loads", "html")
     .open("/")
     .next((context) => __awaiter(void 0, void 0, void 0, function* () {
-    const divTag = yield context.exists("div");
+    context
+        .assert("HTTP Status equals 200", context.response.statusCode)
+        .equals(200);
+    context.response.loadTime
+        .assert("Load time was less than 1 second")
+        .lessThan(1000);
 }));
 suite
     .scenario("Homepage Loads", "html")
     .open("/login")
-    .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () {
+    context
+        .assert("HTTP Status equals 200", context.response.statusCode)
+        .equals(200);
+    context.response.loadTime
+        .assert("Load time was less than 1 second")
+        .lessThan(1000);
+}));
 suite
     .scenario("Homepage Loads", "html")
     .open("/register")
-    .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () {
+    context
+        .assert("HTTP Status equals 200", context.response.statusCode)
+        .equals(200);
+    context.response.loadTime
+        .assert("Load time was less than 1 second")
+        .lessThan(1000);
+}));
 suite
     .scenario("Homepage Loads", "html")
     .open("/posts/:postId")
-    .next((context) => __awaiter(void 0, void 0, void 0, function* () { }));
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () {
+    context
+        .assert("HTTP Status equals 200", context.response.statusCode)
+        .equals(200);
+    context.response.loadTime
+        .assert("Load time was less than 1 second")
+        .lessThan(1000);
+}));
+suite
+    .scenario("Some Other Page Loads", "browser")
+    .open("/login")
+    .next((context) => __awaiter(void 0, void 0, void 0, function* () {
+    yield context.type('input[name="username"]', "Cris");
+    yield context.type('input[name="password"]', "helloworld");
+    yield context.click('button[name="loginButton"]');
+    yield context.waitForNavigation();
+    yield context.screenshot("example.png");
+}));
