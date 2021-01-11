@@ -47,6 +47,7 @@ export default function Login(props) {
       props.history.push("/");
     },
     onError(err) {
+      console.log(err.graphQLErrors[0].extensions.exception.errors);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
       handleError();
       console.log(Object.keys(errors).length);
@@ -85,6 +86,7 @@ export default function Login(props) {
                   type="username"
                   label="username"
                   name="username"
+                  className="username"
                 />
               </Box>
               <Box margin={1}>
@@ -93,6 +95,7 @@ export default function Login(props) {
                   type="password"
                   label="Password"
                   name="password"
+                  className="password"
                 />
               </Box>
               {isSubmitting && <LinearProgress />}
@@ -102,6 +105,7 @@ export default function Login(props) {
                   color="primary"
                   disabled={isSubmitting}
                   onClick={submitForm}
+                  name="loginButton"
                 >
                   Login
                 </Button>
