@@ -1,5 +1,7 @@
 import flagpole from "flagpole";
-const puppeteer = require("puppeteer");
+require("dotenv").config();
+const USERNAME = process.env.USERNAME!;
+const PASSWORD = process.env.PASSWORD!;
 
 const suite = flagpole("Basic Smoke Test of Site");
 
@@ -55,10 +57,9 @@ suite
   .scenario("Some Other Page Loads", "browser")
   .open("/login")
   .next(async (context) => {
-    await context.type('input[name="username"]', "Cris");
-    await context.type('input[name="password"]', "helloworld");
+    await context.type('input[name="username"]', USERNAME);
+    await context.type('input[name="password"]', PASSWORD);
     await context.click('button[name="loginButton"]');
     await context.waitForNavigation();
-    // await page.screenshot({ path: "example.png" });
-    await context.screenshot("example.png");
+    await context.screenshot("test-images/LoggedIn.png");
   });
