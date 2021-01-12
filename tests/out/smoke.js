@@ -10,7 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const flagpole_1 = require("flagpole");
-const puppeteer = require("puppeteer");
+require("dotenv").config();
+const USERNAME = process.env.USERNAME;
+const PASSWORD = process.env.PASSWORD;
 const suite = flagpole_1.default("Basic Smoke Test of Site");
 suite
     .scenario("Homepage Loads", "html")
@@ -60,9 +62,9 @@ suite
     .scenario("Some Other Page Loads", "browser")
     .open("/login")
     .next((context) => __awaiter(void 0, void 0, void 0, function* () {
-    yield context.type('input[name="username"]', "Cris");
-    yield context.type('input[name="password"]', "helloworld");
+    yield context.type('input[name="username"]', USERNAME);
+    yield context.type('input[name="password"]', PASSWORD);
     yield context.click('button[name="loginButton"]');
     yield context.waitForNavigation();
-    yield context.screenshot("example.png");
+    yield context.screenshot("test-images/example.png");
 }));
